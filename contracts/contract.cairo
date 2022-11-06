@@ -12,7 +12,7 @@ from contracts.oracle.IEmpiricOracle import IEmpiricOracle
 from contracts.contract_storage import ContractStorage
 from contracts.libraries.helpers.helpers import array_sum
 
-from contracts.libraries.helpers.constants import EMPIRIC_VOL_ADDRESS, KEY, decimals
+from contracts.libraries.helpers.constants import EMPIRIC_VOL_ADDRESS, KEY, decimals, N
 
 
 func get_latest_checkpoint_index{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_check_ptr}(
@@ -32,7 +32,7 @@ func storage_historical_prices{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, r
     let (latest_index) = get_latest_checkpoint_index();
     let (latest_price) = ContractStorage.price_array_read();
     let latest_price_ptr = cast([latest_price], felt*);
-    write_array(latest_price_ptr, 10, latest_index);
+    write_array(latest_price_ptr, N, latest_index);
     return ();
 }
 
@@ -53,8 +53,8 @@ func predict_next_price{syscall_ptr: felt*, pedersen_ptr: HashBuiltin*, range_ch
     storage_historical_prices();
     let (latest_price) = ContractStorage.price_array_read();
     let latest_price_ptr = cast([latest_price], felt*);
-    let sum = array_sum(latest_price_ptr, 10);
-    let (price_avg, rem) = unsigned_div_rem(sum, 10);
+    let sum = array_sum(latest_price_ptr, N);
+    let (price_avg, rem) = unsigned_div_rem(sum, N);
 
     return (res=price_avg);
 }
