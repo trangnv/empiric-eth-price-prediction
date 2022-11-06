@@ -1,0 +1,5 @@
+const EMPIRIC_VOL_ADDRESS = 0x00b63d77cbf599e72ab23f2746edd1197ce45960910ea048b4898c4866d7f300;
+const KEY = 19514442401534788;  // str_to_felt("ETH/USD")
+const decimals = 8;
+
+// const START = 1665051301;
